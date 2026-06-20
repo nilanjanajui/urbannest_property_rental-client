@@ -14,7 +14,7 @@ export default function PrivateRoute({ children, allowedRoles }) {
         if (!isPending && user && allowedRoles && !allowedRoles.includes(user.role)) {
             router.push("/")
         }
-    }, [user, isPending])
+    }, [user, isPending, router, allowedRoles])  // ← added router and allowedRoles
 
     if (isPending) return <div>Loading...</div>
     if (!user) return null
