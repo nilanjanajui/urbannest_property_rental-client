@@ -1,47 +1,60 @@
 "use client";
 import { motion } from "framer-motion";
-import { FaShieldAlt, FaSearchLocation, FaHandshake, FaRegCreditCard, FaHeadset, FaStar } from "react-icons/fa";
+import { FaShieldAlt, FaLock, FaHeadset, FaStar } from "react-icons/fa";
 
 const features = [
-    { icon: FaSearchLocation, title: "Smart Search", desc: "Filter properties by location, type, and price range with our powerful search." },
-    { icon: FaShieldAlt, title: "Verified Listings", desc: "Every property is reviewed and approved by our team before going live." },
-    { icon: FaRegCreditCard, title: "Secure Payments", desc: "Pay your booking fee safely using Stripe's encrypted payment gateway." },
-    { icon: FaHandshake, title: "Easy Booking", desc: "Book your desired property in minutes with a clear, simple process." },
-    { icon: FaHeadset, title: "24/7 Support", desc: "Our support team is always available to help with questions or issues." },
-    { icon: FaStar, title: "Trusted Reviews", desc: "Read genuine reviews from tenants who have rented through UrbanNest." },
+    {
+        icon: FaShieldAlt,
+        title: "Verified Listings",
+        desc: "Every property is hand-inspected by our elite local team for quality assurance.",
+        style: "bg-purple-100 text-purple-600",
+    },
+    {
+        icon: FaLock,
+        title: "Secure Payments",
+        desc: "End-to-end encrypted financial transactions and identity protection protocols.",
+        style: "bg-blue-100 text-blue-600",
+    },
+    {
+        icon: FaHeadset,
+        title: "24/7 Support",
+        desc: "Dedicated lifestyle managers available around the clock to assist your transition.",
+        style: "bg-amber-100 text-amber-600",
+    },
+    {
+        icon: FaStar,
+        title: "Premium Amenities",
+        desc: "Exclusive access to gym, private lounges, and co-working spaces in all buildings.",
+        style: "bg-emerald-100 text-emerald-600",
+    },
 ];
 
 export default function WhyChooseUs() {
     return (
-        <section className="py-20 bg-white">
+        <section id="why" className="py-20 bg-gray-50">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-14">
-                    <p className="text-indigo-500 font-semibold text-sm uppercase tracking-widest mb-2">
-                        Our Advantages
-                    </p>
-                    <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
-                        Why Choose UrbanNest?
-                    </h2>
-                    <p className="text-slate-500 max-w-xl mx-auto">
-                        We make renting simple, secure, and stress-free for both tenants and property owners.
+                    <h2 className="text-2xl md:text-3xl font-bold text-[#1a1f4e] mb-3">Why UrbanNest?</h2>
+                    <p className="text-gray-400 text-sm max-w-sm mx-auto">
+                        We simplify the rental experience with quality, security, and support.
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
                     {features.map((f, i) => (
                         <motion.div
                             key={i}
-                            initial={{ opacity: 0, y: 30 }}
+                            initial={{ opacity: 0, y: 24 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.5, delay: i * 0.1 }}
-                            className="group p-6 rounded-2xl border border-slate-100 hover:border-indigo-100 hover:shadow-md transition-all duration-300"
+                            className="flex flex-col items-center text-center"
                         >
-                            <div className="w-14 h-14 bg-indigo-50 group-hover:bg-indigo-600 rounded-2xl flex items-center justify-center text-indigo-600 group-hover:text-white mb-5 transition-colors duration-300">
+                            <div className={`w-16 h-16 rounded-2xl ${f.style} flex items-center justify-center mb-5`}>
                                 <f.icon size={22} />
                             </div>
-                            <h3 className="text-base font-semibold text-slate-800 mb-2">{f.title}</h3>
-                            <p className="text-slate-500 text-sm leading-relaxed">{f.desc}</p>
+                            <h3 className="font-semibold text-[#1a1f4e] text-sm mb-2">{f.title}</h3>
+                            <p className="text-gray-400 text-xs leading-relaxed">{f.desc}</p>
                         </motion.div>
                     ))}
                 </div>
