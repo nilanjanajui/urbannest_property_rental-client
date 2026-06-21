@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { FaBuilding, FaBars, FaTimes } from "react-icons/fa";
+import { FaBars, FaTimes } from "react-icons/fa";
 import { useAuth } from "@/context/AuthContext";
 import { signOut } from "@/lib/auth-client";
 
@@ -18,90 +18,61 @@ export default function Navbar() {
     };
 
     return (
-        <nav className="bg-white shadow-sm sticky top-0 z-50 border-b border-slate-100">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex justify-between items-center h-16">
+        <nav className="bg-white sticky top-0 z-50 border-b border-gray-100">
+            <div className="max-w-7xl mx-auto px-6 lg:px-8">
+                <div className="flex items-center justify-between h-16">
 
-                    {/* Logo */}
-                    <Link href="/" className="flex items-center gap-2">
-                        <div className="w-9 h-9 bg-indigo-600 rounded-xl flex items-center justify-center">
-                            <FaBuilding className="text-white text-base" />
-                        </div>
-                        <span className="text-xl font-bold text-indigo-900 tracking-tight">
-                            Urban<span className="text-indigo-500">Nest</span>
-                        </span>
+                    <Link href="/" className="text-xl font-bold text-[#1a1f4e]">
+                        UrbanNest
                     </Link>
 
-                    {/* Desktop links */}
                     <div className="hidden md:flex items-center gap-8">
-                        <Link href="/" className="text-slate-600 hover:text-indigo-600 font-medium text-sm transition-colors">
-                            Home
-                        </Link>
-                        <Link href="/properties" className="text-slate-600 hover:text-indigo-600 font-medium text-sm transition-colors">
-                            All Properties
-                        </Link>
+                        <Link href="/" className="text-sm text-gray-600 hover:text-[#1a1f4e] font-medium transition-colors">Home</Link>
+                        <Link href="/properties" className="text-sm text-gray-600 hover:text-[#1a1f4e] font-medium transition-colors">All Properties</Link>
+                        <a href="#why" className="text-sm text-gray-600 hover:text-[#1a1f4e] font-medium transition-colors">Help</a>
                     </div>
 
-                    {/* Auth — Desktop */}
-                    <div className="hidden md:flex items-center gap-3">
+                    <div className="hidden md:flex items-center gap-5">
                         {isPending ? (
-                            <div className="w-6 h-6 border-2 border-indigo-300 border-t-indigo-600 rounded-full animate-spin" />
+                            <div className="w-5 h-5 border-2 border-gray-200 border-t-gray-500 rounded-full animate-spin" />
                         ) : user ? (
                             <>
-                                <Link
-                                    href="/dashboard"
-                                    className="text-slate-600 hover:text-indigo-600 font-medium text-sm transition-colors"
-                                >
-                                    Dashboard
-                                </Link>
+                                <Link href="/dashboard" className="text-sm text-gray-600 hover:text-[#1a1f4e] font-medium">Dashboard</Link>
                                 <button
                                     onClick={handleLogout}
-                                    className="bg-indigo-600 hover:bg-indigo-700 text-white text-sm px-5 py-2 rounded-lg font-medium transition-colors"
+                                    className="text-sm bg-[#1a1f4e] hover:bg-[#2a2f60] text-white px-5 py-2 rounded-full font-medium transition-colors"
                                 >
                                     Logout
                                 </button>
                             </>
                         ) : (
                             <>
-                                <Link
-                                    href="/login"
-                                    className="text-slate-600 hover:text-indigo-600 font-medium text-sm transition-colors"
-                                >
-                                    Login
-                                </Link>
-                                <Link
-                                    href="/register"
-                                    className="bg-indigo-600 hover:bg-indigo-700 text-white text-sm px-5 py-2 rounded-lg font-medium transition-colors"
-                                >
+                                <Link href="/login" className="text-sm text-gray-600 hover:text-[#1a1f4e] font-medium">Sign In</Link>
+                                <Link href="/register" className="text-sm bg-[#1a1f4e] hover:bg-[#2a2f60] text-white px-5 py-2 rounded-full font-medium transition-colors">
                                     Register
                                 </Link>
                             </>
                         )}
                     </div>
 
-                    {/* Mobile toggle */}
-                    <button
-                        className="md:hidden text-slate-600 p-2"
-                        onClick={() => setMenuOpen(!menuOpen)}
-                    >
-                        {menuOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
+                    <button className="md:hidden p-1.5 text-gray-600" onClick={() => setMenuOpen(!menuOpen)}>
+                        {menuOpen ? <FaTimes size={18} /> : <FaBars size={18} />}
                     </button>
                 </div>
 
-                {/* Mobile menu */}
                 {menuOpen && (
-                    <div className="md:hidden border-t border-slate-100 py-3 flex flex-col gap-1">
-                        <Link href="/" onClick={() => setMenuOpen(false)} className="px-4 py-2 text-slate-600 hover:text-indigo-600 text-sm font-medium">Home</Link>
-                        <Link href="/properties" onClick={() => setMenuOpen(false)} className="px-4 py-2 text-slate-600 hover:text-indigo-600 text-sm font-medium">All Properties</Link>
+                    <div className="md:hidden border-t border-gray-100 py-3 flex flex-col gap-0.5 pb-4">
+                        <Link href="/" onClick={() => setMenuOpen(false)} className="px-2 py-2.5 text-sm text-gray-700 font-medium rounded-lg hover:bg-gray-50">Home</Link>
+                        <Link href="/properties" onClick={() => setMenuOpen(false)} className="px-2 py-2.5 text-sm text-gray-700 font-medium rounded-lg hover:bg-gray-50">All Properties</Link>
                         {user ? (
                             <>
-                                <Link href="/dashboard" onClick={() => setMenuOpen(false)} className="px-4 py-2 text-slate-600 hover:text-indigo-600 text-sm font-medium">Dashboard</Link>
-                                <button onClick={handleLogout} className="px-4 py-2 text-left text-red-500 text-sm font-medium">Logout</button>
+                                <Link href="/dashboard" onClick={() => setMenuOpen(false)} className="px-2 py-2.5 text-sm text-gray-700 font-medium rounded-lg hover:bg-gray-50">Dashboard</Link>
+                                <button onClick={handleLogout} className="px-2 py-2.5 text-left text-sm text-red-500 font-medium">Logout</button>
                             </>
                         ) : (
                             <>
-                                <Link href="/login" onClick={() => setMenuOpen(false)} className="px-4 py-2 text-slate-600 hover:text-indigo-600 text-sm font-medium">Login</Link>
-                                <Link href="/register" onClick={() => setMenuOpen(false)} className="px-4 py-2 text-indigo-600 text-sm font-medium">Register</Link>
+                                <Link href="/login" onClick={() => setMenuOpen(false)} className="px-2 py-2.5 text-sm text-gray-700 font-medium rounded-lg hover:bg-gray-50">Sign In</Link>
+                                <Link href="/register" onClick={() => setMenuOpen(false)} className="px-2 py-2.5 text-sm text-[#1a1f4e] font-semibold">Register</Link>
                             </>
                         )}
                     </div>
