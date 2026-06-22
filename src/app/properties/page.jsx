@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useCallback, Suspense } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { motion } from "framer-motion";
@@ -61,6 +61,23 @@ function ListingCard({ property, index }) {
     );
 }
 
+function PaginationBtn({ children, active, disabled, onClick }) {
+    return (
+        <button
+            onClick={onClick}
+            disabled={disabled}
+            className={`w-10 h-10 rounded-full text-sm font-semibold transition-colors flex items-center justify-center ${active
+                ? "bg-[#1a1f4e] text-white border border-[#1a1f4e]"
+                : disabled
+                    ? "border border-gray-200 bg-white text-gray-300 cursor-not-allowed"
+                    : "border border-gray-200 bg-white text-gray-600 hover:bg-[#1a1f4e] hover:text-white hover:border-[#1a1f4e]"
+                }`}
+        >
+            {children}
+        </button>
+    );
+}
+
 function Pagination({ page, totalPages, onPageChange }) {
     if (!totalPages || totalPages <= 1) return null;
 
@@ -79,10 +96,10 @@ function Pagination({ page, totalPages, onPageChange }) {
             onClick={onClick}
             disabled={disabled}
             className={`w-10 h-10 rounded-full text-sm font-semibold transition-colors flex items-center justify-center ${active
-                    ? "bg-[#1a1f4e] text-white border border-[#1a1f4e]"
-                    : disabled
-                        ? "border border-gray-200 bg-white text-gray-300 cursor-not-allowed"
-                        : "border border-gray-200 bg-white text-gray-600 hover:bg-[#1a1f4e] hover:text-white hover:border-[#1a1f4e]"
+                ? "bg-[#1a1f4e] text-white border border-[#1a1f4e]"
+                : disabled
+                    ? "border border-gray-200 bg-white text-gray-300 cursor-not-allowed"
+                    : "border border-gray-200 bg-white text-gray-600 hover:bg-[#1a1f4e] hover:text-white hover:border-[#1a1f4e]"
                 }`}
         >
             {children}
@@ -91,15 +108,15 @@ function Pagination({ page, totalPages, onPageChange }) {
 
     return (
         <div className="flex items-center justify-center gap-2 mt-12">
-            <Btn disabled={page === 1} onClick={() => onPageChange(page - 1)}>‹</Btn>
+            <PaginationBtn disabled={page === 1} onClick={() => onPageChange(page - 1)}>‹</PaginationBtn>
             {getPages().map((p, i) =>
                 p === "..." ? (
                     <span key={i} className="w-10 h-10 flex items-center justify-center text-gray-400 text-sm">...</span>
                 ) : (
-                    <Btn key={i} active={p === page} onClick={() => onPageChange(p)}>{p}</Btn>
+                    <PaginationBtn key={i} active={p === page} onClick={() => onPageChange(p)}>{p}</PaginationBtn>
                 )
             )}
-            <Btn disabled={page === totalPages} onClick={() => onPageChange(page + 1)}>›</Btn>
+            <PaginationBtn disabled={page === totalPages} onClick={() => onPageChange(page + 1)}>›</PaginationBtn>
         </div>
     );
 }
@@ -125,29 +142,31 @@ function PropertiesContent() {
         page: 1,
     });
 
-    const fetchProperties = useCallback(async () => {
-        setLoading(true);
-        try {
-            const params = new URLSearchParams();
-            if (activeFilters.search) params.set("search", activeFilters.search);
-            if (activeFilters.type) params.set("type", activeFilters.type);
-            if (activeFilters.sort) params.set("sort", activeFilters.sort);
-            if (activeFilters.minPrice) params.set("minPrice", activeFilters.minPrice);
-            if (activeFilters.maxPrice) params.set("maxPrice", activeFilters.maxPrice);
-            params.set("page", activeFilters.page);
-            params.set("limit", 9);
-            const res = await axiosInstance.get(`/properties?${params.toString()}`);
-            setProperties(res.data.properties || []);
-            setPagination(res.data.pagination || { total: 0, page: 1, totalPages: 1 });
-        } catch (err) {
-            console.error(err);
-            setProperties([]);
-        } finally {
-            setLoading(false);
-        }
-    }, [activeFilters]);
 
-    useEffect(() => { fetchProperties(); }, [fetchProperties]);
+    useEffect(() => {
+        const fetchProperties = async () => {
+            setLoading(true);
+            try {
+                const params = new URLSearchParams();
+                if (activeFilters.search) params.set("search", activeFilters.search);
+                if (activeFilters.type) params.set("type", activeFilters.type);
+                if (activeFilters.sort) params.set("sort", activeFilters.sort);
+                if (activeFilters.minPrice) params.set("minPrice", activeFilters.minPrice);
+                if (activeFilters.maxPrice) params.set("maxPrice", activeFilters.maxPrice);
+                params.set("page", activeFilters.page);
+                params.set("limit", 9);
+                const res = await axiosInstance.get(`/properties?${params.toString()}`);
+                setProperties(res.data.properties || []);
+                setPagination(res.data.pagination || { total: 0, page: 1, totalPages: 1 });
+            } catch (err) {
+                console.error(err);
+                setProperties([]);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchProperties();
+    }, [activeFilters]);
 
     const handleSearch = () => {
         setActiveFilters(prev => ({ ...prev, search: inputSearch, type: inputType, sort: inputSort, page: 1 }));
