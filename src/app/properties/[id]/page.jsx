@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import Image from "next/image";
 import { FaMapMarkerAlt, FaBed, FaBath, FaStar, FaHeart, FaCheck, FaEnvelope, FaCalendarAlt, FaHome } from "react-icons/fa";
@@ -35,7 +35,7 @@ function BookingModal({ property, user, onClose }) {
             alert("Please fill in the required fields.");
             return;
         }
-        // Stripe integration will be wired up in Phase 7
+
         alert("Booking confirmed! Payment integration coming in the next update.");
         onClose();
     };
@@ -136,28 +136,39 @@ function PropertyDetailsContent() {
     }, [id]);
 
     useEffect(() => {
-        const fetchProperty = async () => {
+        const fetchData = async () => {
             try {
-                const res = await axiosInstance.get(`/properties/${id}`);
-                setProperty(res.data.property);
+                const [propRes, reviewRes] = await Promise.all([
+                    axiosInstance.get(`/properties/${id}`),
+                    axiosInstance.get(`/reviews?propertyId=${id}`),
+                ]);
+                setProperty(propRes.data.property);
+                setReviews(reviewRes.data.reviews || []);
+                setAvgRating(reviewRes.data.avgRating || 0);
             } catch (err) {
                 console.error(err);
             } finally {
                 setLoading(false);
             }
         };
-        fetchProperty();
-        fetchReviews();
-    }, [id, fetchReviews]);
+        fetchData();
+    }, [id]);
 
     const handleReviewSubmit = async () => {
         if (!reviewForm.rating) return alert("Please select a rating.");
         if (!reviewForm.comment.trim()) return alert("Please write a comment.");
         setSubmitting(true);
         try {
-            await axiosInstance.post("/reviews", { propertyId: id, rating: reviewForm.rating, comment: reviewForm.comment });
+            await axiosInstance.post("/reviews", {
+                propertyId: id,
+                rating: reviewForm.rating,
+                comment: reviewForm.comment,
+            });
             setReviewForm({ rating: 0, comment: "" });
-            fetchReviews();
+            // refetch reviews after submission
+            const res = await axiosInstance.get(`/reviews?propertyId=${id}`);
+            setReviews(res.data.reviews || []);
+            setAvgRating(res.data.avgRating || 0);
         } catch (err) {
             alert(err.response?.data?.message || "Failed to submit review.");
         } finally {
@@ -371,8 +382,8 @@ function PropertyDetailsContent() {
                                 <button
                                     onClick={() => setFavorited(!favorited)}
                                     className={`w-full border py-3 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 transition-colors ${favorited
-                                            ? "border-red-300 text-red-500 bg-red-50"
-                                            : "border-gray-200 text-gray-700 hover:border-[#1a1f4e] hover:text-[#1a1f4e]"
+                                        ? "border-red-300 text-red-500 bg-red-50"
+                                        : "border-gray-200 text-gray-700 hover:border-[#1a1f4e] hover:text-[#1a1f4e]"
                                         }`}
                                 >
                                     <FaHeart size={12} />
