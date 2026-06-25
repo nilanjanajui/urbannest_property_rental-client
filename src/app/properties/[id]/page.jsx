@@ -218,17 +218,27 @@ function PropertyDetailPage() {
     const [reviewLoading, setReviewLoading] = useState(false);
     const [reviewError, setReviewError] = useState("");
     const [reviewSuccess, setReviewSuccess] = useState(false);
+    const [favoriteId, setFavoriteId] = useState(null);
+    const [favoriteLoading, setFavoriteLoading] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [propRes, reviewRes] = await Promise.all([
+                const requests = [
                     axiosInstance.get(`/properties/${id}`),
                     axiosInstance.get(`/reviews?propertyId=${id}`),
-                ]);
-                setProperty(propRes.data.property);
-                setReviews(reviewRes.data.reviews);
-                setAvgRating(reviewRes.data.avgRating || 0);
+                ];
+                if (user?.role === "tenant") {
+                    requests.push(axiosInstance.get(`/favorites/check?propertyId=${id}`));
+                }
+                const results = await Promise.all(requests);
+                setProperty(results[0].data.property);
+                setReviews(results[1].data.reviews);
+                setAvgRating(results[1].data.avgRating || 0);
+                if (user?.role === "tenant" && results[2]) {
+                    setIsFavorite(results[2].data.isFavorite);
+                    setFavoriteId(results[2].data.favoriteId);
+                }
             } catch (err) {
                 console.error(err);
             } finally {
@@ -236,7 +246,7 @@ function PropertyDetailPage() {
             }
         };
         fetchData();
-    }, [id]);
+    }, [id, user]);
 
     const handleReviewSubmit = async () => {
         if (!rating) { setReviewError("Please select a rating."); return; }
@@ -256,6 +266,26 @@ function PropertyDetailPage() {
             setReviewError(err.response?.data?.message || "Failed to submit review.");
         } finally {
             setReviewLoading(false);
+        }
+    };
+
+    const handleFavoriteToggle = async () => {
+        if (favoriteLoading) return;
+        setFavoriteLoading(true);
+        try {
+            if (isFavorite && favoriteId) {
+                await axiosInstance.delete(`/favorites/${favoriteId}`);
+                setIsFavorite(false);
+                setFavoriteId(null);
+            } else {
+                const { data } = await axiosInstance.post("/favorites", { propertyId: id });
+                setIsFavorite(true);
+                setFavoriteId(data.favorite._id);
+            }
+        } catch (err) {
+            console.error("Favorite toggle failed:", err);
+        } finally {
+            setFavoriteLoading(false);
         }
     };
 
@@ -478,11 +508,12 @@ function PropertyDetailPage() {
                                             </button>
                                         )}
                                         <button
-                                            onClick={() => setIsFavorite((prev) => !prev)}
+                                            onClick={handleFavoriteToggle}
+                                            disabled={favoriteLoading || user?.role !== "tenant"}
                                             className={`p-3 rounded-xl border-2 transition-colors ${isFavorite
-                                                    ? "border-red-200 bg-red-50 text-red-500"
-                                                    : "border-gray-200 text-gray-400 hover:border-red-200 hover:text-red-400"
-                                                }`}
+                                                ? "border-red-200 bg-red-50 text-red-500"
+                                                : "border-gray-200 text-gray-400 hover:border-red-200 hover:text-red-400"
+                                                } disabled:opacity-50 disabled:cursor-not-allowed`}
                                         >
                                             {isFavorite ? <FaHeart /> : <FaRegHeart />}
                                         </button>
@@ -505,14 +536,14 @@ function PropertyDetailPage() {
                                         <p className="text-xs text-blue-200 font-medium mb-3">Property Owner</p>
                                         <div className="flex items-center gap-3">
                                             {property.ownerId.photo ? (
-                                                    <Image
-                                                        src={property.ownerId.photo}
-                                                        alt={property.ownerId.name}
-                                                        width={48}
-                                                        height={48}
-                                                        className="w-12 h-12 rounded-full object-cover border-2 border-white/20"
-                                                    />
-                                                ) : (
+                                                <Image
+                                                    src={property.ownerId.photo}
+                                                    alt={property.ownerId.name}
+                                                    width={48}
+                                                    height={48}
+                                                    className="w-12 h-12 rounded-full object-cover border-2 border-white/20"
+                                                />
+                                            ) : (
                                                 <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center text-lg font-bold">
                                                     {property.ownerId.name?.charAt(0)}
                                                 </div>
