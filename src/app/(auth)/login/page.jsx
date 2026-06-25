@@ -119,7 +119,7 @@ export default function LoginPage() {
                                     value={formData.email}
                                     onChange={handleChange}
                                     required
-                                    className="w-full border border-gray-200 rounded-xl py-3 pl-10 pr-4 text-sm focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition"
+                                    className="w-full border border-gray-200 rounded-xl py-3 pl-10 pr-4 text-sm text-black focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition"
                                 />
                             </div>
                         </div>
@@ -143,7 +143,7 @@ export default function LoginPage() {
                                     value={formData.password}
                                     onChange={handleChange}
                                     required
-                                    className="w-full border border-gray-200 rounded-xl py-3 pl-10 pr-10 text-sm focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition"
+                                    className="w-full border border-gray-200 rounded-xl py-3 pl-10 pr-10 text-sm text-black focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition"
                                 />
                                 <button
                                     type="button"

@@ -11,6 +11,13 @@ export default function Navbar() {
     const router = useRouter();
     const [menuOpen, setMenuOpen] = useState(false);
 
+    const dashboardPath =
+        user?.role === "admin"
+            ? "/dashboard/admin"
+            : user?.role === "owner"
+                ? "/dashboard/owner"
+                : "/dashboard/tenant"
+
     const handleLogout = async () => {
         await signOut();
         router.push("/");
@@ -37,7 +44,7 @@ export default function Navbar() {
                             <div className="w-5 h-5 border-2 border-gray-200 border-t-gray-500 rounded-full animate-spin" />
                         ) : user ? (
                             <>
-                                <Link href="/dashboard" className="text-sm text-gray-600 hover:text-[#1a1f4e] font-medium">Dashboard</Link>
+                                <Link href={dashboardPath} className="text-sm text-gray-600 hover:text-[#1a1f4e] font-medium">Dashboard</Link>
                                 <button
                                     onClick={handleLogout}
                                     className="text-sm bg-[#1a1f4e] hover:bg-[#2a2f60] text-white px-5 py-2 rounded-full font-medium transition-colors"
@@ -66,7 +73,7 @@ export default function Navbar() {
                         <Link href="/properties" onClick={() => setMenuOpen(false)} className="px-2 py-2.5 text-sm text-gray-700 font-medium rounded-lg hover:bg-gray-50">All Properties</Link>
                         {user ? (
                             <>
-                                <Link href="/dashboard" onClick={() => setMenuOpen(false)} className="px-2 py-2.5 text-sm text-gray-700 font-medium rounded-lg hover:bg-gray-50">Dashboard</Link>
+                                <Link href={dashboardPath} onClick={() => setMenuOpen(false)} className="px-2 py-2.5 text-sm text-gray-700 font-medium rounded-lg hover:bg-gray-50">Dashboard</Link>
                                 <button onClick={handleLogout} className="px-2 py-2.5 text-left text-sm text-red-500 font-medium">Logout</button>
                             </>
                         ) : (
