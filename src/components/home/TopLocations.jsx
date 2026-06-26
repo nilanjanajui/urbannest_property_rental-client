@@ -32,6 +32,7 @@ export default function TopLocations() {
                                 src={loc.image}
                                 alt={loc.name}
                                 fill
+                                sizes="(max-width: 768px) 50vw, 25vw"
                                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                             />
                             <div className="absolute inset-0 bg-linear-to-t from-[#1a1f4e]/80 via-transparent to-transparent" />

@@ -22,6 +22,7 @@ export default function PropertyCard({ property, index = 0 }) {
                     src={property.images?.[0] || "https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&auto=format&fit=crop"}
                     alt={property.title}
                     fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1280px) 33vw, 400px"
                     className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
                 />
                 <span className={`absolute top-3 left-3 text-xs font-semibold px-3 py-1 rounded-full ${BADGE_STYLES[index % 3]}`}>

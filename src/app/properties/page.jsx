@@ -18,6 +18,45 @@ function ListingCard({ property, index }) {
     const { user } = useAuth();
     const href = user ? `/properties/${property._id}` : "/login";
     const badge = BADGES[index % 3];
+    const [isFavorite, setIsFavorite] = useState(false);
+    const [favoriteId, setFavoriteId] = useState(null);
+    const [favoriteLoading, setFavoriteLoading] = useState(false);
+
+    useEffect(() => {
+        const checkFavorite = async () => {
+            if (user?.role !== "tenant") return;
+            try {
+                const { data } = await axiosInstance.get(`/favorites/check?propertyId=${property._id}`);
+                setIsFavorite(data.isFavorite);
+                setFavoriteId(data.favoriteId);
+            } catch (err) {
+                console.error("Favorite check failed:", err);
+            }
+        };
+        checkFavorite();
+    }, [user, property._id]);
+
+    const handleFavoriteToggle = async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (favoriteLoading || user?.role !== "tenant") return;
+        setFavoriteLoading(true);
+        try {
+            if (isFavorite && favoriteId) {
+                await axiosInstance.delete(`/favorites/${favoriteId}`);
+                setIsFavorite(false);
+                setFavoriteId(null);
+            } else {
+                const { data } = await axiosInstance.post("/favorites", { propertyId: property._id });
+                setIsFavorite(true);
+                setFavoriteId(data.favorite._id);
+            }
+        } catch (err) {
+            console.error("Favorite toggle failed:", err.response?.status, err.response?.data?.message);
+        } finally {
+            setFavoriteLoading(false);
+        }
+    };
 
     return (
         <div className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-100">
@@ -26,13 +65,19 @@ function ListingCard({ property, index }) {
                     src={property.images?.[0] || "https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&auto=format&fit=crop"}
                     alt={property.title}
                     fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1280px) 33vw, 400px"
                     className="object-cover hover:scale-105 transition-transform duration-500"
                 />
                 <span className={`absolute top-3 left-3 text-xs font-semibold px-3 py-1 rounded-full ${badge.cls}`}>
                     {badge.label}
                 </span>
-                <button className="absolute top-3 right-3 w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-sm hover:bg-red-50 transition-colors">
-                    <FaHeart size={12} className="text-gray-300" />
+                <button
+                    onClick={handleFavoriteToggle}
+                    disabled={favoriteLoading || user?.role !== "tenant"}
+                    className={`absolute top-3 right-3 w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${isFavorite ? "bg-red-50" : "hover:bg-red-50"
+                        }`}
+                >
+                    <FaHeart size={12} className={isFavorite ? "text-red-500" : "text-gray-300"} />
                 </button>
             </div>
             <div className="p-5">

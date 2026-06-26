@@ -220,6 +220,7 @@ function PropertyDetailPage() {
     const [reviewSuccess, setReviewSuccess] = useState(false);
     const [favoriteId, setFavoriteId] = useState(null);
     const [favoriteLoading, setFavoriteLoading] = useState(false);
+    const [favoriteError, setFavoriteError] = useState("");
 
     useEffect(() => {
         const fetchData = async () => {
@@ -272,6 +273,7 @@ function PropertyDetailPage() {
     const handleFavoriteToggle = async () => {
         if (favoriteLoading) return;
         setFavoriteLoading(true);
+        setFavoriteError("");
         try {
             if (isFavorite && favoriteId) {
                 await axiosInstance.delete(`/favorites/${favoriteId}`);
@@ -283,7 +285,9 @@ function PropertyDetailPage() {
                 setFavoriteId(data.favorite._id);
             }
         } catch (err) {
-            console.error("Favorite toggle failed:", err);
+            const msg = err.response?.data?.message || "Failed to update favorites";
+            setFavoriteError(msg);
+            console.error("Favorite toggle failed:", err.response?.status, msg);
         } finally {
             setFavoriteLoading(false);
         }
@@ -323,7 +327,13 @@ function PropertyDetailPage() {
                     <div className="grid grid-cols-3 gap-3 rounded-2xl overflow-hidden h-105 mb-8">
                         <div className="col-span-2 relative">
                             {images[0] ? (
-                                <Image src={images[0]} alt={property.title} fill className="w-full h-full object-cover" />
+                                <Image
+                                    src={images[0]}
+                                    alt={property.title}
+                                    fill
+                                    sizes="(max-width: 768px) 100vw, 66vw"
+                                    className="object-cover"
+                                />
                             ) : (
                                 <div className="w-full h-full bg-gray-200 flex items-center justify-center">
                                     <span className="text-gray-400">No image</span>
@@ -336,16 +346,32 @@ function PropertyDetailPage() {
                             )}
                         </div>
                         <div className="flex flex-col gap-3">
-                            {images[1] ? (
-                                <Image src={images[1]} alt="" fill className="h-1/2 w-full object-cover" />
-                            ) : (
-                                <div className="h-1/2 bg-gray-200 rounded-lg" />
-                            )}
-                            {images[2] ? (
-                                <Image src={images[2]} alt="" fill className="h-1/2 w-full object-cover" />
-                            ) : (
-                                <div className="h-1/2 bg-gray-200 rounded-lg" />
-                            )}
+                            <div className="relative h-1/2">
+                                {images[1] ? (
+                                    <Image
+                                        src={images[1]}
+                                        alt=""
+                                        fill
+                                        sizes="(max-width: 768px) 100vw, 33vw"
+                                        className="object-cover rounded-tr-2xl"
+                                    />
+                                ) : (
+                                    <div className="w-full h-full bg-gray-200 rounded-tr-2xl" />
+                                )}
+                            </div>
+                            <div className="relative h-1/2">
+                                {images[2] ? (
+                                    <Image
+                                        src={images[2]}
+                                        alt=""
+                                        fill
+                                        sizes="(max-width: 768px) 100vw, 33vw"
+                                        className="object-cover rounded-br-2xl"
+                                    />
+                                ) : (
+                                    <div className="w-full h-full bg-gray-200 rounded-br-2xl" />
+                                )}
+                            </div>
                         </div>
                     </div>
 
@@ -517,6 +543,9 @@ function PropertyDetailPage() {
                                         >
                                             {isFavorite ? <FaHeart /> : <FaRegHeart />}
                                         </button>
+                                        {favoriteError && (
+                                            <p className="text-red-500 text-xs mt-1">{favoriteError}</p>
+                                        )}
                                     </div>
                                 </div>
 
