@@ -496,7 +496,7 @@ function PropertyDetailPage() {
                                             onChange={(e) => setComment(e.target.value)}
                                             rows={3}
                                             placeholder="Share your experience..."
-                                            className="w-full mt-3 px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#1a1f4e] resize-none"
+                                            className="w-full mt-3 px-4 py-3 border border-gray-200 rounded-xl text-sm text-black focus:outline-none focus:border-[#1a1f4e] resize-none"
                                         />
                                         {reviewError && (
                                             <p className="text-red-500 text-xs mt-1">{reviewError}</p>
