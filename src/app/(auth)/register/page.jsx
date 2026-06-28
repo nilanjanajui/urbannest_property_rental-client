@@ -69,7 +69,11 @@ export default function RegisterPage() {
         setGoogleLoading(true)
         setError("")
         await authClient.signIn.social(
-            { provider: "google", callbackURL: "/dashboard/tenant" },
+            {
+                provider: "google",
+                callbackURL: "/dashboard/tenant",
+                errorCallbackURL: "/register?error=google_auth_failed",
+            },
             {
                 onError: (ctx) => {
                     setError(ctx.error.message || "Google sign-up failed.")

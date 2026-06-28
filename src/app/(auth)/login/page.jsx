@@ -49,7 +49,11 @@ export default function LoginPage() {
         setGoogleLoading(true)
         setError("")
         await authClient.signIn.social(
-            { provider: "google", callbackURL: "/dashboard/tenant" },
+            {
+                provider: "google",
+                callbackURL: "/dashboard/tenant",
+                errorCallbackURL: "/login?error=google_auth_failed",
+            },
             {
                 onError: (ctx) => {
                     setError(ctx.error.message || "Google login failed.")
