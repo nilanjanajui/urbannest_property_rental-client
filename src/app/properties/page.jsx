@@ -59,7 +59,7 @@ function ListingCard({ property, index }) {
     };
 
     return (
-        <div className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-100">
+        <div className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-100 flex flex-col h-full">
             <div className="relative h-52 overflow-hidden">
                 <Image
                     src={property.images?.[0] || "https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&auto=format&fit=crop"}
@@ -80,7 +80,7 @@ function ListingCard({ property, index }) {
                     <FaHeart size={12} className={isFavorite ? "text-red-500" : "text-gray-300"} />
                 </button>
             </div>
-            <div className="p-5">
+            <div className="p-5 flex flex-col flex-1">
                 <div className="flex items-start justify-between gap-2 mb-1">
                     <h3 className="font-bold text-[#1a1f4e] text-sm line-clamp-2 flex-1">{property.title}</h3>
                     <div className="flex items-center gap-1 shrink-0">
@@ -92,7 +92,7 @@ function ListingCard({ property, index }) {
                     <FaMapMarkerAlt size={10} className="text-[#1a1f4e]" />
                     <span className="line-clamp-1">{property.location}</span>
                 </div>
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between mt-auto">
                     <div>
                         <span className="text-[#1a1f4e] font-bold text-base">${property.rent.toLocaleString()}</span>
                         <span className="text-gray-400 text-xs">/{property.rentType}</span>
@@ -325,6 +325,7 @@ function PropertiesContent() {
                                 initial={{ opacity: 0, y: 16 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.3, delay: i * 0.05 }}
+                                className="h-full"
                             >
                                 <ListingCard property={property} index={i} />
                             </motion.div>

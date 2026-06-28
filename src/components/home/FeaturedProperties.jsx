@@ -47,6 +47,7 @@ export default function FeaturedProperties() {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.5, delay: i * 0.08 }}
+                                className="h-full"
                             >
                                 <PropertyCard property={property} index={i} />
                             </motion.div>
