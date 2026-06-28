@@ -51,8 +51,8 @@ export default function LoginPage() {
         await authClient.signIn.social(
             {
                 provider: "google",
-                callbackURL: "/dashboard/tenant",
-                errorCallbackURL: "/login?error=google_auth_failed",
+                callbackURL: `${window.location.origin}/dashboard/tenant`,
+                errorCallbackURL: `${window.location.origin}/login?error=google_auth_failed`,
             },
             {
                 onError: (ctx) => {
