@@ -23,6 +23,7 @@ function AdminLayout({ children }) {
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
     const handleSignOut = async () => {
+        sessionStorage.removeItem("auth_token");
         await signOut();
         router.push("/");
     };

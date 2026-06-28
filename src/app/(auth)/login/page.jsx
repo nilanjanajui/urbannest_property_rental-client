@@ -39,6 +39,12 @@ export default function LoginPage() {
             return
         }
 
+        // Generate JWT token upon successful login
+        const jwtResult = await authClient.getJwt()
+        if (jwtResult?.data?.token) {
+            sessionStorage.setItem("auth_token", jwtResult.data.token)
+        }
+
         const role = result.data?.user?.role
         if (role === "admin") router.push("/dashboard/admin")
         else if (role === "owner") router.push("/dashboard/owner")

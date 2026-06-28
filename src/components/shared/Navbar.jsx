@@ -19,6 +19,7 @@ export default function Navbar() {
                 : "/dashboard/tenant"
 
     const handleLogout = async () => {
+        sessionStorage.removeItem("auth_token");
         await signOut();
         router.push("/");
         setMenuOpen(false);
