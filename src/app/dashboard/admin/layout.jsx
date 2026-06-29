@@ -7,6 +7,7 @@ import { useAuth } from "@/context/AuthContext";
 import { signOut } from "@/lib/auth-client";
 import PrivateRoute from "@/components/auth/PrivateRoute";
 import Image from "next/image";
+import { authClient } from "@/lib/auth-client"
 
 const navLinks = [
     { href: "/dashboard/admin/users", label: "All Users", icon: FaUsers },
@@ -27,6 +28,21 @@ function AdminLayout({ children }) {
         await signOut();
         router.push("/");
     };
+
+    useEffect(() => {
+        const storeJwt = async () => {
+            if (sessionStorage.getItem("auth_token")) return
+            try {
+                const { data } = await authClient.getJwt()
+                if (data?.token) {
+                    sessionStorage.setItem("auth_token", data.token)
+                }
+            } catch {
+                // ignore
+            }
+        }
+        storeJwt()
+    }, [])
 
     const isActive = (href) => pathname.startsWith(href);
 

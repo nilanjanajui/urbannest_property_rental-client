@@ -7,6 +7,7 @@ import { useAuth } from "@/context/AuthContext";
 import { signOut } from "@/lib/auth-client";
 import PrivateRoute from "@/components/auth/PrivateRoute";
 import Image from "next/image";
+import { authClient } from "@/lib/auth-client";
 
 const navLinks = [
     { href: "/dashboard/tenant/bookings", label: "My Bookings", icon: FaCalendarAlt },
@@ -25,6 +26,21 @@ function TenantLayout({ children }) {
         await signOut();
         router.push("/");
     };
+
+    useEffect(() => {
+        const storeJwt = async () => {
+            if (sessionStorage.getItem("auth_token")) return
+            try {
+                const { data } = await authClient.getJwt()
+                if (data?.token) {
+                    sessionStorage.setItem("auth_token", data.token)
+                }
+            } catch {
+                // ignore
+            }
+        }
+        storeJwt()
+    }, [])
 
     return (
         <div className="min-h-screen bg-[#f0f4ff] flex">
@@ -70,8 +86,8 @@ function TenantLayout({ children }) {
                             key={href}
                             href={href}
                             className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm transition-colors ${pathname === href
-                                    ? "bg-amber-400 text-[#1a1f4e] font-semibold"
-                                    : "text-white/70 hover:bg-white/10 hover:text-white"
+                                ? "bg-amber-400 text-[#1a1f4e] font-semibold"
+                                : "text-white/70 hover:bg-white/10 hover:text-white"
                                 }`}
                         >
                             <Icon size={14} />
