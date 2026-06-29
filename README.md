@@ -1,4 +1,4 @@
-# UrbanNest — Property Rental & Booking Platform
+# UrbanNest - Property Rental & Booking Platform
 
 > A modern full-stack rental marketplace where property owners can list rental properties and tenants can discover, book, and pay for accommodations through a seamless digital experience.
 
