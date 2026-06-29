@@ -16,7 +16,13 @@ export default function PrivateRoute({ children, allowedRoles }) {
         }
     }, [user, isPending, router, allowedRoles])  // ← added router and allowedRoles
 
-    if (isPending) return <div>Loading...</div>
+    if (isPending) {
+        return (
+            <div className="flex items-center justify-center min-h-screen bg-[#f0f4ff]">
+                <div className="w-10 h-10 border-4 border-[#1a1f4e] border-t-transparent rounded-full animate-spin" />
+            </div>
+        )
+    }
     if (!user) return null
 
     return children
