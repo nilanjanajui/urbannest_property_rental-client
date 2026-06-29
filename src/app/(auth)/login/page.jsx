@@ -8,6 +8,7 @@ import { FiMail, FiLock, FiEye, FiEyeOff } from "react-icons/fi"
 import { FcGoogle } from "react-icons/fc"
 import { BsShieldCheck } from "react-icons/bs"
 import { HiOutlineLockClosed } from "react-icons/hi"
+import axiosInstance from "@/lib/axios";
 
 export default function LoginPage() {
     const router = useRouter()
@@ -39,10 +40,11 @@ export default function LoginPage() {
             return
         }
 
-        // Generate JWT token upon successful login
-        const jwtResult = await authClient.getJwt()
-        if (jwtResult?.data?.token) {
-            sessionStorage.setItem("auth_token", jwtResult.data.token)
+        try {
+            const { data } = await axiosInstance.get("/token")
+            if (data?.token) sessionStorage.setItem("auth_token", data.token)
+        } catch {
+            // proceed without token
         }
 
         const role = result.data?.user?.role
