@@ -2,7 +2,6 @@
 
 > A modern full-stack rental marketplace where property owners can list rental properties and tenants can discover, book, and pay for accommodations through a seamless digital experience.
 
-![UrbanNest](https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1200\&auto=format\&fit=crop\&q=80)
 
 ---
 
@@ -148,7 +147,6 @@ NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_your_key_here
 ## Related Repositories
 
 * **Server Repository:** https://github.com/nilanjanajui/urbannest_property_rental-server
-* **Client Repository:** https://github.com/nilanjanajui/urbannest_property_rental-client
 
 ---
 
