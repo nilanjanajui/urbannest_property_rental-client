@@ -124,7 +124,7 @@ cd urbannest_property_rental-client
 npm install
 
 # Configure environment variables
-cp .env.example .env.local
+cp .env.local
 
 # Start the development server
 npm run dev
