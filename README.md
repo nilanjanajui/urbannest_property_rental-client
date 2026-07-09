@@ -1,237 +1,185 @@
-# UrbanNest - Property Rental & Booking Platform
+<div align="center">
 
-> A modern, full-stack property rental marketplace built with **Next.js**, **Better Auth**, **Stripe**, and **MongoDB**, enabling property owners to manage rental listings while providing tenants with a seamless property discovery, booking, and payment experience.
+# 🏙️ UrbanNest
+### Full-Stack Property Rental & Booking Marketplace
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js" />
-  <img src="https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black" />
-  <img src="https://img.shields.io/badge/TailwindCSS-v4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" />
-  <img src="https://img.shields.io/badge/Better%20Auth-Authentication-blue?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/Stripe-Payments-635BFF?style=for-the-badge&logo=stripe&logoColor=white" />
-  <img src="https://img.shields.io/badge/License-MIT-success?style=for-the-badge" />
-</p>
+**A production-grade rental platform connecting property owners and tenants —
+end-to-end booking, secure payments, and role-based dashboards, built on the modern web stack.**
 
----
+[![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-Visit_App-4F46E5?style=for-the-badge)](https://urbannest-property-rental-client.vercel.app)
+[![Server Repo](https://img.shields.io/badge/⚙️_Server_Repo-GitHub-181717?style=for-the-badge&logo=github)](https://github.com/nilanjanajui/urbannest_property_rental-server)
 
-## Live Application
+<br/>
 
-**Application:** https://urbannest-property-rental-client.vercel.app
+![Next.js](https://img.shields.io/badge/Next.js_15-black?style=for-the-badge&logo=next.js)
+![React](https://img.shields.io/badge/React_19-61DAFB?style=for-the-badge&logo=react&logoColor=black)
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS_v4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
+![Better Auth](https://img.shields.io/badge/Better_Auth-000000?style=for-the-badge&logo=auth0&logoColor=white)
+![Stripe](https://img.shields.io/badge/Stripe-635BFF?style=for-the-badge&logo=stripe&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
+![Vercel](https://img.shields.io/badge/Deployed_on_Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-success?style=for-the-badge)
 
-
----
-
-# Overview
-
-UrbanNest is a production-ready rental marketplace designed to simplify the interaction between property owners and tenants.
-
-The platform enables owners to publish and manage rental properties while allowing tenants to search listings, save favorites, submit booking requests, complete secure online payments, and manage their bookings through dedicated dashboards.
-
-Built with the latest **Next.js App Router**, UrbanNest focuses on performance, scalability, security, and an intuitive user experience.
+</div>
 
 ---
 
-# Technology Stack
+## 💡 Why UrbanNest?
 
-<p align="center">
-<img src="https://skillicons.dev/icons?i=nextjs,react,tailwind,nodejs,express,mongodb,git,github,vscode&theme=dark"/>
-</p>
+Most rental-listing demos stop at "browse and view." UrbanNest goes further — it's a **three-role marketplace** (Tenant, Owner, Admin) with a real booking lifecycle, Stripe-powered payments, and analytics dashboards, built to mirror how production rental platforms (like Airbnb-style marketplaces) actually work under the hood.
 
-| Category           | Technologies         |
-| ------------------ | -------------------- |
-| Framework          | Next.js 15, React 19 |
-| Styling            | Tailwind CSS 4       |
-| Authentication     | Better Auth, JWT     |
-| Payments           | Stripe               |
-| Database           | MongoDB              |
-| HTTP Client        | Axios                |
-| Animations         | Framer Motion        |
-| Data Visualization | Recharts             |
+**At a glance:**
+
+| | |
+|---|---|
+| 🔐 **Auth** | Email/password + Google OAuth via Better Auth, JWT-secured APIs |
+| 🏘️ **Marketplace** | Server-side search, filter, and sort across live property listings |
+| 📅 **Booking Engine** | Request → Approval → Move-in scheduling → History, fully tracked |
+| 💳 **Payments** | Stripe Payment Intents with verified, auditable transactions |
+| 📊 **Dashboards** | Role-specific views for Tenants, Owners, and Admins with revenue analytics |
+| 📱 **UX** | Fully responsive, animated with Framer Motion, custom loading & error states |
 
 ---
 
-# Features
+## 🖥️ Tech Stack
 
-## Authentication & Authorization
+<div align="center">
+<img src="https://skillicons.dev/icons?i=nextjs,react,tailwind,nodejs,express,mongodb,git,github,vscode&theme=dark" />
+</div>
 
-* Email and password authentication
-* Google OAuth integration
-* JWT-based API authorization
-* Persistent user sessions
-* Protected routes
-* Role-based access control
-* Tenant, Owner, and Admin dashboards
-
----
-
-## Property Marketplace
-
-* Browse approved rental properties
-* Search by location
-* Filter by property type
-* Filter by price range
-* Server-side sorting
-* Responsive property grid
-* Featured property showcase
+| Layer | Technology |
+|---|---|
+| **Framework** | Next.js 15 (App Router), React 19 |
+| **Styling** | Tailwind CSS v4 |
+| **Auth** | Better Auth, JWT, Google OAuth |
+| **Payments** | Stripe (Payment Intents API) |
+| **Database** | MongoDB |
+| **HTTP Client** | Axios |
+| **Animation** | Framer Motion |
+| **Data Viz** | Recharts |
 
 ---
 
-## Booking System
+## ✨ Core Features
 
-* Property booking requests
-* Booking approval workflow
-* Booking status tracking
-* Move-in scheduling
-* Booking history
+### 🔐 Authentication & Authorization
+- Email/password + Google OAuth login
+- JWT-secured API layer with protected routes
+- Persistent sessions and role-based access control (Tenant / Owner / Admin)
 
----
+### 🏘️ Property Marketplace
+- Search by location, filter by type & price range
+- Server-side sorting for performance at scale
+- Responsive property grid with featured listings showcase
 
-## Online Payments
+### 📅 Booking System
+- End-to-end booking request → approval workflow
+- Real-time status tracking and move-in scheduling
+- Full booking history per user
 
-* Secure Stripe integration
-* Payment intent creation
-* Online checkout
-* Payment verification
-* Transaction history
+### 💳 Payments
+- Stripe checkout with Payment Intent creation
+- Server-side payment verification
+- Transaction history logging
 
----
+### 🏠 Owner Dashboard
+- Add / edit / delete listings
+- Manage incoming booking requests
+- Revenue tracking & analytics
+- View admin feedback on submitted listings
 
-## Owner Dashboard
+### 🛡️ Admin Dashboard
+- User management & role updates
+- Property approval/rejection workflow
+- Platform-wide booking & transaction oversight
 
-Owners can
-
-* Add new properties
-* Edit listings
-* Delete listings
-* Manage booking requests
-* Track monthly revenue
-* Monitor bookings
-* View analytics
-* Review administrator feedback
-
----
-
-## Admin Dashboard
-
-Administrators can
-
-* Manage users
-* Update user roles
-* Review submitted properties
-* Approve or reject listings
-* Monitor platform bookings
-* View transaction history
+### 🎨 Experience
+- Mobile-first, fully responsive design
+- Framer Motion micro-interactions
+- Custom loading screen, error boundaries, and 404 page
 
 ---
 
-## User Experience
-
-* Responsive design
-* Mobile-first layout
-* Framer Motion animations
-* Custom loading screen
-* Error handling
-* 404 page
-* Consistent design system
-* Fast page navigation
-
----
-
-# Project Structure
+## 🗂️ Project Structure
 
 ```text
 src/
 ├── app/
-│   ├── (auth)/
-│   ├── dashboard/
-│   ├── payment/
-│   └── properties/
+│   ├── (auth)/          # Auth routes & flows
+│   ├── dashboard/       # Role-based dashboards
+│   ├── payment/         # Stripe checkout flow
+│   └── properties/      # Listings & search
 │
 ├── components/
 │   ├── auth/
 │   ├── home/
 │   └── shared/
 │
-├── context/
-├── hooks/
-├── lib/
-├── services/
-└── utils/
+├── context/             # Global state providers
+├── hooks/                # Custom React hooks
+├── lib/                  # Config & integrations
+├── services/             # API service layer
+└── utils/                 # Helpers
 ```
 
 ---
 
-# Getting Started
-
-## Clone the repository
+## 🚀 Getting Started
 
 ```bash
+# Clone the repository
 git clone https://github.com/nilanjanajui/urbannest_property_rental-client.git
-
 cd urbannest_property_rental-client
-```
 
-## Install dependencies
-
-```bash
+# Install dependencies
 npm install
 ```
 
-## Configure environment variables
-
-Create a `.env.local` file.
+Create a `.env.local` file:
 
 ```env
 NEXT_PUBLIC_API_URL=https://your-server.onrender.com/api
-
 NEXT_PUBLIC_SERVER_URL=https://your-server.onrender.com
-
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_your_key_here
 ```
 
-## Start the development server
-
 ```bash
+# Run the dev server
 npm run dev
 ```
 
-Visit
-
-```
-http://localhost:3000
-```
+Visit **http://localhost:3000**
 
 ---
 
-# Project Highlights
+## 🏆 Project Highlights
 
-* Next.js 15 App Router architecture
-* JWT-secured REST API communication
-* Better Auth authentication
-* Google OAuth integration
-* Stripe payment processing
-* Server-side searching, filtering, and sorting
-* Owner analytics dashboard
-* Responsive UI for all devices
-* Modern component architecture
-* Production deployment on Vercel
+- ⚡ Built on **Next.js 15 App Router** for modern rendering performance
+- 🔒 **JWT-secured REST API** with Better Auth + Google OAuth
+- 💳 Real **Stripe payment integration** — not a mock checkout
+- 🔍 **Server-side search, filter & sort** for scalable data handling
+- 📊 **Analytics dashboard** for owners with revenue tracking
+- 📱 Fully **responsive UI** across devices
+- ☁️ **Live production deployment** on Vercel
 
 ---
 
-# Related Projects
+## 🔗 Related Repositories
 
-| Repository | Link                                                             |
-| ---------- | ---------------------------------------------------------------- |
-| Server     | https://github.com/nilanjanajui/urbannest_property_rental-server |
-| Live Demo  | https://urbannest-property-rental-client.vercel.app              |
-
----
-
-# License
-
-This project was developed for educational and portfolio purposes.
+| Repository | Link |
+|---|---|
+| 🖥️ Client (this repo) | You're here |
+| ⚙️ Server / API | [urbannest_property_rental-server](https://github.com/nilanjanajui/urbannest_property_rental-server) |
+| 🌐 Live Demo | [urbannest-property-rental-client.vercel.app](https://urbannest-property-rental-client.vercel.app) |
 
 ---
 
-<p align="center">
-Built with using Next.js, React, Tailwind CSS, Better Auth, MongoDB, and Stripe.
-</p>
+## 📄 License
+
+This project was developed for educational and portfolio purposes under the **MIT License**.
+
+<div align="center">
+
+**Built with ❤️ using Next.js, React, Tailwind CSS, Better Auth, MongoDB & Stripe**
+
+</div>
